@@ -31,8 +31,26 @@ module.exports = (app) => {
         })
     });
 
+    app.put("/api/workouts/:id", ({body,params}, res) =>{
+        Workout.findOneAndUpdate(
+            params.id,
+            {$push:{exercises: body}},
+            {new: true, runValidators:true}
+        )
+        .then(data = res.json(data))
+        .catch(err=>{
+            res.json(err)
+        })
+    });
 
-
-  
+    app.post("/api/workouts/range", (req, res)=>{
+        Workout.create({})
+        .then(data => {
+            res.json(data)
+        })
+        .catch(err => {
+            res.json(err)
+        })
+    });
 
 }
